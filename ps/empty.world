@@ -1,0 +1,61 @@
+include "epuck-mine.inc"
+include "map.inc"
+
+# configure the GUI window
+window
+(
+  size [ 600.000 600.000 ] # in pixels
+  scale 10 # pixels per meter
+  center [ -0.040  -0.274 ]
+  rotate [ 0  0 ]	
+  show_data 1              # 1=on 0=off
+)
+
+# load an environment bitmap
+floorplan
+(
+	size [50 50 2]
+	bitmap "../bitmaps/empty.png"
+)
+
+define light model
+(  
+	size [ 0.300 0.300 0.300 ]
+ 	color "yellow"
+	#Defining the shape of an epuck
+	block(
+		points 4
+			point[0] [0 0]
+			point[1] [1 0]
+			point[2] [1 1]
+			point[3] [0 1]
+			z [0 1]
+	)
+	obstacle_return 0
+)
+
+light( name "light1" pose [ 0 2 0 0 ] )
+light( name "light2" pose [ 5 5 0 0 ] )
+light( name "light3" pose [ 10 10 0 0 ] )
+light( name "light4" pose [ -5 -3 0 0 ] )
+light( name "light5" pose [ -10 -15 0 0 ] )
+
+# Candidate Solution (or passive agents)
+epuck( name "cs0" color "blue" pose [8 0 0 90] )
+epuck( name "cs1" color "blue" pose [15 3 0 90] )
+epuck( name "cs2" color "blue" pose [-7 5 0 90] )
+epuck( name "cs3" color "blue" pose [-18 24 0 90] )
+epuck( name "cs4" color "blue" pose [21 -15 0 90] )
+
+# Breeders
+eAgent( name "fa0" color "green" pose [7 7 0 90] )
+eAgent( name "fa1" color "green" pose [-7 -7 0 90] )
+
+# Reapers
+eAgent( name "fa2" color "black" pose [13 11 0 90] )
+eAgent( name "fa3" color "black" pose [-15 17 0 90] )
+
+# Cupids
+eAgent( name "fa4" color "red" pose [-9 -16 0 90] )
+eAgent( name "fa5" color "red" pose [7 -15 0 90] )
+
