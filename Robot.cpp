@@ -3,10 +3,9 @@
 
 using namespace PlayerCc;
 
-Robot::Robot(int port,int i){
+Robot::Robot(int port,int i,const char* c){
 	client = new PlayerClient("localhost",port);
 	pp = new Position2dProxy(client,0);
-	rp = new RangerProxy(client,0); 
 	if(i<=9)
 		id=new char[3];
 	else
@@ -14,16 +13,15 @@ Robot::Robot(int port,int i){
 			id=new char[4];
 		else
 			id=new char[5];
-	sprintf(id,"cs%d",i);
+	sprintf(id, c ,i);
 	active=true; 
 }
 
-
 Robot::~Robot(){
 	delete id;
-	delete rp;
 	delete pp;
 	delete client;
+	std::cout<<"distrutto Robot"<<std::endl;
 }
 
 PlayerClient* Robot::getClient(){
@@ -32,10 +30,6 @@ PlayerClient* Robot::getClient(){
 
 Position2dProxy* Robot::getPP(){
 	return pp;
-}
-
-RangerProxy* Robot::getRP(){
-	return rp;
 }
 
 bool Robot::getActive(){
@@ -49,7 +43,6 @@ void Robot::setActive(bool b){
 void Robot::updateSensors(){
 	client->Read();
 	pp->RequestGeom();
-	rp->RequestGeom();
 }
 
 char* Robot::getID(){

@@ -7,12 +7,10 @@ using namespace PlayerCc;
 
 class Robot {
 public:
-//	Robot();
-	Robot(int,int);
+	Robot(int,int,const char*);
 	~Robot();
 	PlayerClient* getClient();
 	Position2dProxy* getPP();
-	RangerProxy* getRP();
 	bool getActive();
 	void setActive(bool);
 	void updateSensors();
@@ -22,7 +20,6 @@ private:
 	char* id;
 	PlayerClient* client;
 	Position2dProxy* pp;
-	RangerProxy* rp;
 	bool active;
 };
 

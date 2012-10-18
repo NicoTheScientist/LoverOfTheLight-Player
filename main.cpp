@@ -4,17 +4,13 @@
 #include <math.h>
 #include <libplayerc++/playerc++.h>
 #include "Robot.cpp"
+#include "RobotCS.cpp"
+#include "RobotFA.cpp"
 
 using namespace PlayerCc;
 
-void reset(int& c,bool* ft,int ncs, bool* ftfa,int nfa){
+void reset(int& c){
 	c=0;
-	for(int i=0; i<ncs; i++){
-		*(ft+i)=true;
-	}
-	for(int j=0; j<nfa; j++){
-		*(ftfa+j)=true;
-	}
 }
 
 int main(int argc, char *argv[]) {
@@ -27,15 +23,13 @@ int main(int argc, char *argv[]) {
 	
 	int nRobots=5;
 	
-	Robot* robots[nRobots];
-	
-	bool firstTime[nRobots];
+	RobotCS* robots[nRobots];
+	bool firstTimeCS[nRobots];
 		
 	for(int i=0; i<nRobots; i++){
-		robots[i]=new Robot(6665+i,i);
+		robots[i]=new RobotCS(6665+i,i,"cs%d");
 		robots[i]->updateSensors();
-		firstTime[i]=true;
-		std::cout<<robots[i]->getID()<<std::endl;
+		firstTimeCS[i]=true;
 	}
 		
 	SimulationProxy* sp=new SimulationProxy(robots[0]->getClient(),0);
@@ -45,20 +39,16 @@ int main(int argc, char *argv[]) {
 	int nReapers=2;
 	int nCupids=2;
 	int nBreeders=2;
-	
+
 	int nFA=nReapers+nCupids+nBreeders;
 	
-	PlayerClient* agents[nFA];
-	Position2dProxy* ppFA[nFA];
-	
+	RobotFA* agents[nFA];
 	bool firstTimeFA[nFA];
 
 	for(int i=0; i<nFA; i++){
-		agents[i]=new PlayerClient("localhost", 6665+nRobots+i);
-		ppFA[i]=new Position2dProxy(agents[i],0);
+		agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d");
+		agents[i]->updateSensors();
 		firstTimeFA[i]=true;
-		agents[i]->Read();
-		ppFA[i]->RequestGeom();
 	}
 	
 	double forwardSpeed, turnSpeed;
@@ -82,12 +72,11 @@ int main(int argc, char *argv[]) {
 			else
 				turnSpeed=0;
 				
-			robots[i]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
-			if(robots[i]->getPP()->GetStall() && firstTime[i]){
+			if(robots[i]->getPP()->GetStall()){
 				double robotX, robotY, robotYaw;
 				sp->GetPose2d(robots[i]->getID(), robotX, robotY, robotYaw);
 				sp->SetPose2d(robots[i]->getID(), robotX, robotY, robotYaw+dtor(180));
-				firstTime[i]=false;
+				robots[i]->updateSensors();
 			}
 			else
 				robots[i]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
@@ -96,9 +85,7 @@ int main(int argc, char *argv[]) {
 	/*** Now it's the time of the FA! ***/
 
 		for (int q=0; q<nFA; q++) {
-			agents[q]->Read();
-			ppFA[q]->RequestGeom();
-			double newTurnate=0;
+			agents[q]->updateSensors();
 
 	/*** Looking for the neighbourhood ***/
 /*
@@ -122,20 +109,18 @@ int main(int argc, char *argv[]) {
 			else
 				turnSpeed=0;
 			
-			if(ppFA[q]->GetStall() && firstTimeFA[q]){
+			if(agents[q]->getPP()->GetStall()){
 				double robotX, robotY, robotYaw;
-				char name[3];
-				sprintf(name,"fa%d",q);
-				sp->GetPose2d(name, robotX, robotY, robotYaw);
-				sp->SetPose2d(name, robotX, robotY, robotYaw+dtor(180));
-				firstTimeFA[q]=false;
+				sp->GetPose2d(agents[q]->getID(), robotX, robotY, robotYaw);
+				sp->SetPose2d(agents[q]->getID(), robotX, robotY, robotYaw+dtor(180));
+				agents[q]->updateSensors();
 			}
 			else
-				ppFA[q]->SetSpeed(0.13, dtor(turnSpeed));
+				agents[q]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
 			
 		}
 		
 		if(count==50)
-			reset(count,firstTime,nRobots,firstTimeFA,nFA); 
+			reset(count); 
 	}
 }
