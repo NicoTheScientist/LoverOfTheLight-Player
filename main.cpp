@@ -6,12 +6,9 @@
 #include "Robot.cpp"
 #include "RobotCS.cpp"
 #include "RobotFA.cpp"
+#include "utils.cpp"
 
 using namespace PlayerCc;
-
-void reset(int& c){
-	c=0;
-}
 
 int main(int argc, char *argv[]) {
 	
@@ -72,13 +69,7 @@ int main(int argc, char *argv[]) {
 			else
 				turnSpeed=0;
 				
-			if(robots[i]->getPP()->GetStall()){
-				double robotX, robotY, robotYaw;
-				sp->GetPose2d(robots[i]->getID(), robotX, robotY, robotYaw);
-				sp->SetPose2d(robots[i]->getID(), robotX, robotY, robotYaw+dtor(180));
-				robots[i]->updateSensors();
-			}
-			else
+			if(!checkAndSolveStall(robots[i],*sp))
 				robots[i]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
 		}
 
@@ -109,13 +100,7 @@ int main(int argc, char *argv[]) {
 			else
 				turnSpeed=0;
 			
-			if(agents[q]->getPP()->GetStall()){
-				double robotX, robotY, robotYaw;
-				sp->GetPose2d(agents[q]->getID(), robotX, robotY, robotYaw);
-				sp->SetPose2d(agents[q]->getID(), robotX, robotY, robotYaw+dtor(180));
-				agents[q]->updateSensors();
-			}
-			else
+			if(!checkAndSolveStall(agents[q],*sp))
 				agents[q]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
 			
 		}
