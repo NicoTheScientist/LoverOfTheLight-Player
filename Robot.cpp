@@ -21,7 +21,6 @@ Robot::~Robot(){
 	delete id;
 	delete pp;
 	delete client;
-	std::cout<<"distrutto Robot"<<std::endl;
 }
 
 PlayerClient* Robot::getClient(){

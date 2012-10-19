@@ -9,7 +9,6 @@ RobotCS::RobotCS(int port,int i,const char* c): Robot(port,i,c){
 
 RobotCS::~RobotCS(){
 	delete rp;
-	std::cout<<"distrutto RobotCS"<<std::endl;
 }
 
 RangerProxy* RobotCS::getRP(){

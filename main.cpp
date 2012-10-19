@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
+#include <vector>
 #include <libplayerc++/playerc++.h>
 #include "Robot.cpp"
 #include "RobotCS.cpp"
@@ -13,39 +14,32 @@ using namespace PlayerCc;
 int main(int argc, char *argv[]) {
 	
 	/*******************************************************Init Phase*****************************************************************/
-
-	int nbSize=5;
 	
 	/*** Candidate Solution Init ***/
 	
 	int nRobots=5;
 	
-	RobotCS* robots[nRobots];
-	bool firstTimeCS[nRobots];
+	std::vector<RobotCS*> robots (nRobots);
 		
 	for(int i=0; i<nRobots; i++){
 		robots[i]=new RobotCS(6665+i,i,"cs%d");
 		robots[i]->updateSensors();
-		firstTimeCS[i]=true;
 	}
 		
 	SimulationProxy* sp=new SimulationProxy(robots[0]->getClient(),0);
 	
-	/*** Init Fate Agents ***/
+	/*** Fate Agents Init ***/
 	
 	int nReapers=2;
 	int nCupids=2;
 	int nBreeders=2;
-
 	int nFA=nReapers+nCupids+nBreeders;
-	
-	RobotFA* agents[nFA];
-	bool firstTimeFA[nFA];
+
+	std::vector<RobotFA*> agents (nFA);
 
 	for(int i=0; i<nFA; i++){
 		agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d");
 		agents[i]->updateSensors();
-		firstTimeFA[i]=true;
 	}
 	
 	double forwardSpeed, turnSpeed;
@@ -79,22 +73,9 @@ int main(int argc, char *argv[]) {
 			agents[q]->updateSensors();
 
 	/*** Looking for the neighbourhood ***/
-/*
-			for(int i=0; i<nRobots; i++){			
-				double targetX, targetY, targetYaw;
-				char targetName[3];
-				sprintf(targetName,"cs%d",i);
-				sp->GetPose2d(targetName, targetX, targetY, targetYaw);
-							
-				double agentX, agentY, agentYaw;
-				char agentName[3];
-				sprintf(agentName,"fa%d",q);
-				sp->GetPose2d(agentName, agentX, agentY, agentYaw);
-				
-				if((targetX>agentX-nbSize && targetX<agentX+nbSize) && (targetY>agentY-nbSize && targetY<agentY+nbSize))
-					std::cout<<targetName<<std::endl;
-			}
-		*/
+
+			agents[q]->searchNeighbourhood(robots,agents,*sp);
+			
 			if(count%25==0)
 				turnSpeed = rand() % 181 - 90;
 			else
@@ -102,7 +83,6 @@ int main(int argc, char *argv[]) {
 			
 			if(!checkAndSolveStall(agents[q],*sp))
 				agents[q]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
-			
 		}
 		
 		if(count==50)
