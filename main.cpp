@@ -16,8 +16,7 @@ int main(int argc, char *argv[]) {
 	
 	/*** Candidate Solution Init ***/
 	
-	int nRobots=5;
-	
+	int nRobots=5;	
 	std::vector<RobotCS*> robots (nRobots);
 		
 	for(int i=0; i<nRobots; i++){
@@ -29,18 +28,19 @@ int main(int argc, char *argv[]) {
 	
 	/*** Fate Agents Init ***/
 	
-	int nReapers=2;
-	int nCupids=2;
 	int nBreeders=2;
+	int nCupids=2;
+	int nReapers=2;
+
 	int nFA=nReapers+nCupids+nBreeders;
 
 	std::vector<RobotFA*> agents (nFA);
 
 	for(int i=0; i<nFA; i++){
-		if(i<nReapers)
+		if(i<nBreeders)
 			agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",1);
 		else
-			if(i<nReapers+nCupids)
+			if(i<nBreeders+nCupids)
 				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",2);
 			else
 				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",3);
@@ -61,15 +61,15 @@ int main(int argc, char *argv[]) {
 	/*** Now the robot moves ***/
 
 		for(int i=0; i<nRobots; i++){
+		
 			robots[i]->updateSensors();
-
-			if(count%25==0)
-				turnSpeed = rand() % 181 - 90;
-			else
-				turnSpeed=0;
-				
+			robots[i]->readSensors(forwardSpeed,turnSpeed);
+			
+			std::cout<<robots[i]->getID()<<"speed: "<<forwardSpeed<<std::endl;
+			std::cout<<robots[i]->getID()<<"angle: "<<turnSpeed<<std::endl;
+			
 			if(!checkAndSolveStall(robots[i],*sp))
-				robots[i]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
+				robots[i]->getPP()->SetSpeed(0.13+forwardSpeed,turnSpeed);
 		}
 
 	/*** Now it's the time of the FA! ***/

@@ -11,17 +11,6 @@ Controller::Controller(){
     }
 }
 
-Controller::Controller(double** w){
-        
-    weights = new double*[nInputs];
-    for (int i = 0; i < nInputs; i++) {
-        weights[i] = new double[nOutputs];
-        for (int j = 0; j < nOutputs; j++) {
-            weights[i][j] = w[i][j];
-        }
-    }
-}
-
 Controller::~Controller(){
     
     for (int i = 0; i < nInputs; i++) {
@@ -45,4 +34,15 @@ double* Controller::fwd(double *inputs){
 
 double** Controller::getWeights(){
     return weights;
+}
+
+void Controller::setWeights(double** w){
+        
+    weights = new double*[nInputs];
+    for (int i = 0; i < nInputs; i++) {
+        weights[i] = new double[nOutputs];
+        for (int j = 0; j < nOutputs; j++) {
+            weights[i][j] = w[i][j];
+        }
+    }
 }

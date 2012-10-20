@@ -17,11 +17,13 @@ public:
 	Agent* getAgent();
 	void setAgent(Agent* ag);
 
+protected:
+	Agent* a;
+
 private:
 	char* id;
 	PlayerClient* client;
 	Position2dProxy* pp;
-	Agent* a;
 };
 
 #endif // !ROBOT_H

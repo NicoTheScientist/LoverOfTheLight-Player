@@ -4,6 +4,7 @@
 #include "Reaper.h"
 #include "Agent.h"
 #include <math.h>
+#include <stdlib.h>
 
 // Random number from a normal distribution, taken from: http://www.dreamincode.net/code/snippet1446.htm 
 double randn_notrig(double mu=0.0, double sigma=1.0) {

@@ -51,11 +51,11 @@ epuck( name "cs4" color "blue" pose [21 -15 0 90] )
 eAgent( name "fa0" color "green" pose [7 7 0 90] )
 eAgent( name "fa1" color "green" pose [-7 -7 0 90] )
 
-# Reapers
-eAgent( name "fa2" color "black" pose [13 11 0 90] )
-eAgent( name "fa3" color "black" pose [-15 17 0 90] )
-
 # Cupids
-eAgent( name "fa4" color "red" pose [-9 -16 0 90] )
-eAgent( name "fa5" color "red" pose [7 -15 0 90] )
+eAgent( name "fa2" color "red" pose [-9 -16 0 90] )
+eAgent( name "fa3" color "red" pose [7 -15 0 90] )
+
+# Reapers
+eAgent( name "fa4" color "black" pose [13 11 0 90] )
+eAgent( name "fa5" color "black" pose [-15 17 0 90] )
 

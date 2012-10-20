@@ -18,6 +18,7 @@ Robot::Robot(int port,int i,const char* c){
 }
 
 Robot::~Robot(){
+	delete a;
 	delete id;
 	delete pp;
 	delete client;

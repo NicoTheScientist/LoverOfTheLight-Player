@@ -4,6 +4,7 @@
 #include "CandidateSolution.h"
 #include "Cupid.h"
 #include "Reaper.h"
+#include "Breeder.h"
 #include "Agent.h"
 
 using namespace PlayerCc;
@@ -12,26 +13,26 @@ RobotFA::RobotFA(int port,int i,const char* c,int j): Robot(port,i,c){
 	nbSize=5;
 	switch(j){
 		case 1:
-			setAgent(new Reaper());
+			setAgent(new Breeder());
 			break;
 		case 2:
 			setAgent(new Cupid());
 			break;
-//		case 3:
-//			setAgent(new Breeder());
-//			break;
+		case 3:
+			setAgent(new Reaper());
+			break;
 	}
 }
 
 RobotFA::~RobotFA(){}
 
 void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotFA*> &rfa, SimulationProxy &sp){
-	std::vector<Agent*> cs;
-	std::vector<Agent*> r;
-	std::vector<Agent*> c;
-//	std::vector<Agent*> b(20);
-	std::vector<Agent*> availableCS;
-	std::vector<Agent*> availableFA;
+	std::vector<CandidateSolution*> cs;
+	std::vector<Reaper*> r;
+	std::vector<Cupid*> c;
+	std::vector<Breeder*> b;
+	std::vector<CandidateSolution*> availableCS;
+	std::vector<FateAgent*> availableFA;
 	
 	for(int i=0; i<rcs.size(); i++){
 		double targetX, targetY, targetYaw;
@@ -41,7 +42,7 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 		sp.GetPose2d(getID(), agentX, agentY, agentYaw);
 				
 		if((targetX>agentX-nbSize && targetX<agentX+nbSize) && (targetY>agentY-nbSize && targetY<agentY+nbSize)){
-			Agent* candidate=rcs[i]->getAgent();
+			CandidateSolution* candidate=(CandidateSolution*)(rcs[i]->getAgent());
 			if(candidate->isActive())
 				cs.push_back(candidate);
 			else
@@ -61,26 +62,26 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 				if(fate->isActive()){
 					AgentType at=fate->getType();
 					switch(at) {
+						case breeder:
+							b.push_back((Breeder*)fate);
+							break;
 						case cupid:
-							c.push_back(fate);
-							break;						
+							c.push_back((Cupid*)fate);
+							break;
 						case reaper:
-							r.push_back(fate);
-							break;						
-//						case breeder:
-//							b.push_back(fate);
-//							break;
+							r.push_back((Reaper*)fate);
+							break;
 					}
 					
 				}
 				else
-					availableFA.push_back(fate);
+					availableFA.push_back((FateAgent*)fate);
 			}
 				
 		}
 	}
 	
-	if(cs.size()!=0 || c.size()!=0 || r.size()!=0){
+	if(cs.size()!=0 || c.size()!=0 || r.size()!=0 || b.size()!=0){
 		std::cout<<getID()<<"'s Neighbourhood: "<<std::endl;
 		if(cs.size()!=0)
 			std::cout<<cs.size()<<" CandidateSolutions "<<std::endl;
@@ -88,6 +89,8 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 			std::cout<<c.size()<<" Cupids "<<std::endl;
 		if(r.size()!=0)
 			std::cout<<r.size()<<" Reapers "<<std::endl;
+		if(b.size()!=0)
+			std::cout<<b.size()<<" Breeders "<<std::endl;
 	}		
 }
 

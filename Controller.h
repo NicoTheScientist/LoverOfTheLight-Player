@@ -9,10 +9,10 @@ class Controller {
     static const int nOutputs = 2;
     
     Controller();
-    Controller(double **w);
     ~Controller();
     double* fwd(double *inputs);
     double** getWeights();
+    void setWeights(double **w);
     
     private:
     
