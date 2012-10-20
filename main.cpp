@@ -4,9 +4,8 @@
 #include <math.h>
 #include <vector>
 #include <libplayerc++/playerc++.h>
-#include "Robot.cpp"
-#include "RobotCS.cpp"
-#include "RobotFA.cpp"
+#include "RobotCS.h"
+#include "RobotFA.h"
 #include "utils.cpp"
 
 using namespace PlayerCc;
@@ -38,7 +37,13 @@ int main(int argc, char *argv[]) {
 	std::vector<RobotFA*> agents (nFA);
 
 	for(int i=0; i<nFA; i++){
-		agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d");
+		if(i<nReapers)
+			agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",1);
+		else
+			if(i<nReapers+nCupids)
+				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",2);
+			else
+				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",3);
 		agents[i]->updateSensors();
 	}
 	

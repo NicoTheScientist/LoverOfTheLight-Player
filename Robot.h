@@ -1,4 +1,5 @@
 #include <libplayerc++/playerc++.h>
+#include "Agent.h"
 
 using namespace PlayerCc;
 
@@ -11,16 +12,16 @@ public:
 	~Robot();
 	PlayerClient* getClient();
 	Position2dProxy* getPP();
-	bool getActive();
-	void setActive(bool);
 	void updateSensors();
 	char* getID();
+	Agent* getAgent();
+	void setAgent(Agent* ag);
 
 private:
 	char* id;
 	PlayerClient* client;
 	Position2dProxy* pp;
-	bool active;
+	Agent* a;
 };
 
 #endif // !ROBOT_H

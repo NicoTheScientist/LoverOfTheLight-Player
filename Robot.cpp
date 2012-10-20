@@ -1,5 +1,6 @@
 #include <libplayerc++/playerc++.h>
 #include "Robot.h"
+#include "Agent.h"
 
 using namespace PlayerCc;
 
@@ -14,7 +15,6 @@ Robot::Robot(int port,int i,const char* c){
 		else
 			id=new char[5];
 	sprintf(id, c ,i);
-	active=true; 
 }
 
 Robot::~Robot(){
@@ -31,14 +31,6 @@ Position2dProxy* Robot::getPP(){
 	return pp;
 }
 
-bool Robot::getActive(){
-	return active;
-}
-
-void Robot::setActive(bool b){
-	active=b;
-}
-
 void Robot::updateSensors(){
 	client->Read();
 	pp->RequestGeom();
@@ -46,4 +38,12 @@ void Robot::updateSensors(){
 
 char* Robot::getID(){
 	return id;
+}
+
+Agent* Robot::getAgent(){
+	return a;
+}
+
+void Robot::setAgent(Agent* ag){
+	a=ag;
 }

@@ -9,7 +9,7 @@ using namespace PlayerCc;
 
 class RobotFA : public Robot{
 public:
-	RobotFA(int,int,const char*);
+	RobotFA(int,int,const char*,int);
 	~RobotFA();
 	void searchNeighbourhood(std::vector<RobotCS*>&, std::vector<RobotFA*>&,SimulationProxy&);
 
