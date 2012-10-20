@@ -1,5 +1,11 @@
 #include "Cupid.h"
 #include "Reaper.h"
+#include "Breeder.h"
+#include <time.h>
+#include <math.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <vector>
 
 Cupid::Cupid()
 {

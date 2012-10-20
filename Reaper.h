@@ -3,6 +3,8 @@
 
 #include "FateAgent.h"
 
+const double MAX_INITIAL_SELECTION_PROBABILITIES_REAPER = 0.6;
+
 struct ReaperGenome {
     double probCS;
     double probB;

@@ -1,5 +1,8 @@
 #include "Reaper.h"
 #include "Cupid.h"
+#include "Breeder.h"
+#include <algorithm>
+#include <vector>
 
 Reaper::Reaper()
 {

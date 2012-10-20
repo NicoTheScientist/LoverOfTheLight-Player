@@ -2,10 +2,10 @@
 #define FATE_AGENT_H
 
 #include "Agent.h"
-#include "Breeder.h"
 #include "CandidateSolution.h"
 #include <vector>
 
+class Breeder;
 class Cupid;
 class Reaper;
 

@@ -3,6 +3,10 @@
 
 #include "Agent.h"
 
+struct CandidateSolutionGenome {
+    double** weights;
+};
+
 class CandidateSolution : public Agent {
    
     public:
@@ -10,11 +14,12 @@ class CandidateSolution : public Agent {
     CandidateSolution();
     ~CandidateSolution();
     void evaluateFitness();
-	double** getGenome();
+	CandidateSolutionGenome getGenome();
+    void setGenome(CandidateSolutionGenome g);
 
     private:
 	
-    double** genome;
+    CandidateSolutionGenome genome;
 };
 
 #endif

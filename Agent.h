@@ -1,7 +1,7 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-enum AgentType {candidateSolution, cupid, reaper, breeder, empty};
+enum AgentType {candidateSolution, cupid, reaper, breeder};
 
 class Agent{
     
@@ -12,6 +12,8 @@ class Agent{
 	int getAge();
 	void increaseAge();
 	AgentType getType();
+    bool isActive();
+    void setActive(bool a);
 	virtual void evaluateFitness() = 0;
     
     static bool compare(Agent* left, Agent* right);
@@ -21,6 +23,7 @@ class Agent{
 	double fitness;
 	int age;
     AgentType type;
+    bool active;
 };
 
 #endif

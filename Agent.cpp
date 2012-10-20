@@ -5,6 +5,7 @@ Agent::Agent()
 {
 	age = 0;
 	fitness = -1;
+    active = true;
 }
 
 int Agent::getAge()
@@ -25,4 +26,18 @@ void Agent::increaseAge()
 AgentType Agent::getType()
 {
 	return type;
+}
+
+bool Agent::isActive()
+{
+    return active;
+}
+
+void Agent::setActive(bool a)
+{
+    active = a;
+}
+
+bool Agent::compare(Agent* left, Agent* right) {
+    return left->getFitness() < right->getFitness();
 }

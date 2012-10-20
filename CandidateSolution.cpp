@@ -1,6 +1,8 @@
 #include "CandidateSolution.h"
 #include "Controller.h"
-
+#include <time.h>
+#include <math.h>
+#include <stdlib.h>
 
 CandidateSolution::CandidateSolution()
 {
@@ -8,11 +10,11 @@ CandidateSolution::CandidateSolution()
     
     srand(time(NULL));
     
-    genome = new double*[Controller::nInputs];
+    genome.weights = new double*[Controller::nInputs];
     for (int i = 0; i < Controller::nInputs; i++) {
-        genome[i] = new double[Controller::nOutputs];
+        genome.weights[i] = new double[Controller::nOutputs];
         for (int j = 0; j < Controller::nOutputs; j++) {
-            genome[i][j] = rand() / double(RAND_MAX);
+            genome.weights[i][j] = rand() / double(RAND_MAX);
         }
     }
     
@@ -20,18 +22,19 @@ CandidateSolution::CandidateSolution()
 
 CandidateSolution::~CandidateSolution()
 {
-	for (int i = 0; i < Controller::nInputs; i++) {
-        delete [] genome[i];
-    }
-    delete [] genome;
+    
+}
+
+CandidateSolutionGenome CandidateSolution::getGenome()
+{
+	return genome;
+}
+
+void CandidateSolution::setGenome(CandidateSolutionGenome g) {
+    genome = g;
 }
 
 void CandidateSolution::evaluateFitness()
 {
 	fitness = 0;
-}
-
-double** CandidateSolution::getGenome()
-{
-	return genome;
 }
