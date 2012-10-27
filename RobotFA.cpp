@@ -24,7 +24,17 @@ RobotFA::RobotFA(int port,int i,const char* c,int j): Robot(port,i,c){
 	}
 }
 
-RobotFA::~RobotFA(){}
+RobotFA::~RobotFA(){
+    delete agent;
+}
+
+FateAgent* RobotFA::getAgent(){
+    return agent;
+}
+
+void RobotFA::setAgent(FateAgent* a){
+    agent=a;
+}
 
 void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotFA*> &rfa, SimulationProxy &sp){
 	std::vector<CandidateSolution*> cs;
@@ -80,6 +90,10 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 				
 		}
 	}
+    
+    // set relative Fate Agent neighbourhood
+    agent->setNeighbourhood(cs,b,c,r,availableCS, availableFA);
+    
 	
 	if(cs.size()!=0 || c.size()!=0 || r.size()!=0 || b.size()!=0){
 		std::cout<<getID()<<"'s Neighbourhood: "<<std::endl;

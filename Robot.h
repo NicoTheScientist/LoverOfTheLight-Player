@@ -14,11 +14,11 @@ public:
 	Position2dProxy* getPP();
 	void updateSensors();
 	char* getID();
-	Agent* getAgent();
-	void setAgent(Agent* ag);
+	//Agent* getAgent();
+	//void setAgent(Agent* ag);
 
-protected:
-	Agent* a;
+//protected:
+	//Agent* agent;
 
 private:
 	char* id;
@@ -26,5 +26,4 @@ private:
 	Position2dProxy* pp;
 };
 
-#endif // !ROBOT_H
-
+#endif

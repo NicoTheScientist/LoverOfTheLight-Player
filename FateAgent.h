@@ -17,8 +17,8 @@ class FateAgent : public Agent
 	
     FateAgent();
 	~FateAgent();
-	void setNeighbourhood(vector<CandidateSolution*> cs, vector<Breeder*> b,
-                                    vector<Cupid*> c, vector<Reaper*> r, vector<Agent*> e);
+	void setNeighbourhood(vector<CandidateSolution*> cs, vector<Breeder*> b, vector<Cupid*> c,
+                          vector<Reaper*> r, vector<CandidateSolution*> avCS, vector<FateAgent*> avFA);
     void evaluateFitness();
     
 	
@@ -28,7 +28,8 @@ class FateAgent : public Agent
 	vector<Breeder*> breeders;
     vector<Cupid*> cupids;
 	vector<Reaper*> reapers;
-    vector<Agent*> empties;
+    vector<CandidateSolution*> availableCS;
+    vector<FateAgent*> availableFA;
 };
 
 #endif

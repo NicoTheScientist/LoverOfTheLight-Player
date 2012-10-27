@@ -17,6 +17,9 @@ CandidateSolution::CandidateSolution()
             genome.weights[i][j] = rand() / double(RAND_MAX+1.0);
         }
     }
+    for (int i = 0; i < windowSize; i++) {
+        window[i] = 0;
+    }
     
 }
 
@@ -36,5 +39,21 @@ void CandidateSolution::setGenome(CandidateSolutionGenome g) {
 
 void CandidateSolution::evaluateFitness()
 {
-	fitness = 0;
+    fitness = 0;
+    for (int i = 0; i < windowSize; i++) {
+        fitness += window[i];
+    }
+}
+
+void CandidateSolution::addLight()
+{
+    window[0]++;
+}
+
+void CandidateSolution::shiftWindow()
+{
+    for (int i = windowSize - 2; i >= 0; i--) {
+        window[i+1] = window[i];
+    }
+    window[0] = 0;
 }

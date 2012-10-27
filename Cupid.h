@@ -24,7 +24,8 @@ class Cupid : public FateAgent
     void setGenome(CupidGenome g);
     void performSelection();
 	Agent** getParents();
-	Agent* getEmptyAgent();
+	CandidateSolution* getAvailableCS();
+    FateAgent* getAvailableFA();
 	Breeder* getRandomBreeder();
 
     private:

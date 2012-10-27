@@ -34,3 +34,7 @@ bool checkAndSolveStall(Robot* r,SimulationProxy &sp){
 void reset(int& c){
 	c=0;
 }
+
+int chooseRandom(int arity) {
+    return rand() % arity;
+}

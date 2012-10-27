@@ -113,16 +113,29 @@ Agent** Cupid::getParents()
 	return parents;
 }
 
-Agent* Cupid::getEmptyAgent()
+CandidateSolution* Cupid::getAvailableCS()
 {
-	if (empties.empty()) {
+	if (availableCS.empty()) {
 		return NULL;
 	}
     else {
-        int position = (int)((double)rand() / (RAND_MAX + 1.0) * (double)empties.size());
-        Agent* emptyAgent = empties.at(position);
-        empties.erase(empties.begin() + position);
-        return emptyAgent;
+        int position = (int)((double)rand() / (RAND_MAX + 1.0) * (double)availableCS.size());
+        CandidateSolution* avCS = availableCS.at(position);
+        availableCS.erase(availableCS.begin() + position);
+        return avCS;
+    }
+}
+
+FateAgent* Cupid::getAvailableFA()
+{
+	if (availableFA.empty()) {
+		return NULL;
+	}
+    else {
+        int position = (int)((double)rand() / (RAND_MAX + 1.0) * (double)availableFA.size());
+        FateAgent* avFA = availableFA.at(position);
+        availableFA.erase(availableFA.begin() + position);
+        return avFA;
     }
 }
 

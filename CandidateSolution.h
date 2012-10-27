@@ -16,10 +16,16 @@ class CandidateSolution : public Agent {
     void evaluateFitness();
 	CandidateSolutionGenome getGenome();
     void setGenome(CandidateSolutionGenome g);
+    void addLight();
+    void shiftWindow();
+    
+    static const int windowSize = 10;
 
     private:
 	
     CandidateSolutionGenome genome;
+    double window[windowSize];
+
 };
 
 #endif

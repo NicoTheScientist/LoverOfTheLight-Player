@@ -18,7 +18,7 @@ Robot::Robot(int port,int i,const char* c){
 }
 
 Robot::~Robot(){
-	delete a;
+	//delete agent;
 	delete id;
 	delete pp;
 	delete client;
@@ -41,10 +41,10 @@ char* Robot::getID(){
 	return id;
 }
 
-Agent* Robot::getAgent(){
-	return a;
+/*Agent* Robot::getAgent(){
+	return agent;
 }
 
 void Robot::setAgent(Agent* ag){
-	a=ag;
-}
+	agent=ag;
+}*/

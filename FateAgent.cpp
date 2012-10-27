@@ -10,14 +10,15 @@ FateAgent::~FateAgent()
     
 }
 
-void FateAgent::setNeighbourhood(vector<CandidateSolution*> cs, vector<Breeder*> b,
-                                     vector<Cupid*> c, vector<Reaper*> r, vector<Agent*> e)
+void FateAgent::setNeighbourhood(vector<CandidateSolution*> cs, vector<Breeder*> b, vector<Cupid*> c,
+                                 vector<Reaper*> r, vector<CandidateSolution*> avCS, vector<FateAgent*> avFA)
 {
 	candidateSolutions = cs;
 	breeders = b;
     cupids = c;
 	reapers = r;
-    empties = e;
+    availableCS = avCS;
+    availableFA = avFA;
     
     evaluateFitness();
 }
