@@ -44,7 +44,7 @@ template <class T> void Cupid::selectForType(vector<T*> selectFrom, vector<T*> s
 	}
 }
 
-void Cupid::performSelection()
+void Cupid::performAction()
 {
 	selectForType<CandidateSolution>(candidateSolutions, selectedCandidateSolutions, &Agent::compare, genome.probCS);
     selectForType<Breeder>(breeders, selectedBreeders, &Agent::compare, genome.probB);

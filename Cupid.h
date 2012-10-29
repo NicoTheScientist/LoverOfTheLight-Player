@@ -22,7 +22,7 @@ class Cupid : public FateAgent
 	~Cupid();
     CupidGenome getGenome();
     void setGenome(CupidGenome g);
-    void performSelection();
+    virtual void performAction();
 	Agent** getParents();
 	CandidateSolution* getAvailableCS();
     FateAgent* getAvailableFA();

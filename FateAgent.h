@@ -20,6 +20,7 @@ class FateAgent : public Agent
 	void setNeighbourhood(vector<CandidateSolution*> cs, vector<Breeder*> b, vector<Cupid*> c,
                           vector<Reaper*> r, vector<CandidateSolution*> avCS, vector<FateAgent*> avFA);
     void evaluateFitness();
+    virtual void performAction() = 0;
     
 	
     protected:

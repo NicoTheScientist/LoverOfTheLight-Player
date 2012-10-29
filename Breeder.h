@@ -29,6 +29,7 @@ class Breeder : public FateAgent
 	~Breeder();
 	BreederGenome getGenome();
     void setGenome(BreederGenome g);
+    virtual void performAction();
     void breed(Agent** parents, Agent* emptyAgent);
 
     private:

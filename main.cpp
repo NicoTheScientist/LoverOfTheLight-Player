@@ -17,14 +17,14 @@ int main(int argc, char *argv[]) {
 	/*** Candidate Solution Init ***/
 	
 	int nRobots=5;	
-	std::vector<RobotCS*> robots (nRobots);
+	std::vector<RobotCS*> robotsCS (nRobots);
 		
 	for(int i=0; i<nRobots; i++){
-		robots[i]=new RobotCS(6665+i,i,"cs%d");
-		robots[i]->updateSensors();
+		robotsCS[i]=new RobotCS(6665+i,i,"cs%d");
+		robotsCS[i]->updateSensors();
 	}
 		
-	SimulationProxy* sp=new SimulationProxy(robots[0]->getClient(),0);
+	SimulationProxy* sp=new SimulationProxy(robotsCS[0]->getClient(),0);
 	
 	/*** Fate Agents Init ***/
 	
@@ -34,17 +34,17 @@ int main(int argc, char *argv[]) {
 
 	int nFA=nReapers+nCupids+nBreeders;
 
-	std::vector<RobotFA*> agents (nFA);
+	std::vector<RobotFA*> robotFA (nFA);
 
 	for(int i=0; i<nFA; i++){
 		if(i<nBreeders)
-			agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",1);
+			robotFA[i]=new RobotFA(6665+nRobots+i,i,"fa%d",1);
 		else
 			if(i<nBreeders+nCupids)
-				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",2);
+				robotFA[i]=new RobotFA(6665+nRobots+i,i,"fa%d",2);
 			else
-				agents[i]=new RobotFA(6665+nRobots+i,i,"fa%d",3);
-		agents[i]->updateSensors();
+				robotFA[i]=new RobotFA(6665+nRobots+i,i,"fa%d",3);
+		robotFA[i]->updateSensors();
 	}
 	
     /*** Other Init ***/
@@ -64,8 +64,6 @@ int main(int argc, char *argv[]) {
     int window_time_for_unit = 100;
     int FA_frequency = 5000;
     
-    
-    
     int time=0;
 	while(true) {
 		
@@ -76,12 +74,12 @@ int main(int argc, char *argv[]) {
 		for(int i=0; i<nRobots; i++){
 		
             // update sensors, set wheels velocity and discover if one light is catched
-			robots[i]->updateSensors();
-			bool catched = robots[i]->readSensors(forwardSpeed,turnSpeed);
+			robotsCS[i]->updateSensors();
+			bool catched = robotsCS[i]->readSensors(forwardSpeed,turnSpeed);
 			
             // print velocity and angle for robot
-			std::cout<<robots[i]->getID()<<"speed: "<<forwardSpeed<<std::endl;
-			std::cout<<robots[i]->getID()<<"angle: "<<turnSpeed<<std::endl;
+			std::cout<<robotsCS[i]->getID()<<"speed: "<<forwardSpeed<<std::endl;
+			std::cout<<robotsCS[i]->getID()<<"angle: "<<turnSpeed<<std::endl;
             
             // check if one light is catched
             if(catched) {
@@ -102,38 +100,45 @@ int main(int argc, char *argv[]) {
                     }
                 }
                 // increment lights counte
-                (robots[i]->getAgent())->addLight();
+                (robotsCS[i]->getAgent())->addLight();
             }
             
             // shift the window if window time for unit is reached
             if (time % window_time_for_unit == 0) {
-                (robots[i]->getAgent())->shiftWindow();
+                (robotsCS[i]->getAgent())->shiftWindow();
             }
 			
-			if(!checkAndSolveStall(robots[i],*sp))
-				robots[i]->getPP()->SetSpeed(0.13+forwardSpeed,turnSpeed);
+			if(!checkAndSolveStall(robotsCS[i],*sp))
+				robotsCS[i]->getPP()->SetSpeed(0.13+forwardSpeed,turnSpeed);
 		}
 
         /*** Now it's the time of the FA! ***/
-        
-        //int selectedFA = chooseRandom(nFA);
 
+        
+        /*** each FA has to move ramdomly ***/
+        
 		for (int q=0; q<nFA; q++) {
             
-			agents[q]->updateSensors();
-
-            /*** Looking for the neighbourhood ***/
-
-			agents[q]->searchNeighbourhood(robots,agents,*sp);
+			robotFA[q]->updateSensors();
 			
 			if(time % 25 == 0)
 				turnSpeed = rand() % 181 - 90;
 			else
 				turnSpeed=0;
 			
-			if(!checkAndSolveStall(agents[q],*sp))
-				agents[q]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
+			if(!checkAndSolveStall(robotFA[q],*sp))
+				robotFA[q]->getPP()->SetSpeed(0.13, dtor(turnSpeed));
 		}
+        
+        
+        /*** only randomly selected FA performs its action ***/
+        
+        int selectedFA = chooseRandom(nFA);
+        
+        /*** Looking for the neighbourhood ***/
+        robotFA[selectedFA]->updateSensors();
+        robotFA[selectedFA]->searchNeighbourhood(robotsCS,robotFA,*sp);
+        robotFA[selectedFA]->getAgent()->performAction();
 		
 		//if(time==50)
 		//  reset(count);

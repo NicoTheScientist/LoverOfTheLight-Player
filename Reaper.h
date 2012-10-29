@@ -21,7 +21,7 @@ class Reaper : public FateAgent
 	~Reaper();
     ReaperGenome getGenome();
     void setGenome(ReaperGenome g);
-	void performSelection();
+	virtual void performAction();
 	Agent* getAgentToKill();
 
     private:

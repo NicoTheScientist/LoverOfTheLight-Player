@@ -66,6 +66,10 @@ void Breeder::setGenome(BreederGenome g) {
     genome = g;
 }
 
+void Breeder::performAction() {
+    
+}
+
 void Breeder::breed(Agent** parents, Agent* emptyAgent)
 {
 	switch (parents[0]->getType())

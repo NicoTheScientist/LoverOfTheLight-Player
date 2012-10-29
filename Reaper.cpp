@@ -41,7 +41,7 @@ template <class T> void Reaper::selectForType(vector<T*> selectFrom, vector<T*> 
 	}
 }
 
-void Reaper::performSelection()
+void Reaper::performAction()
 {
 	selectForType<CandidateSolution>(candidateSolutions, selectedCandidateSolutions, &Agent::compare, genome.probCS);
     selectForType<Breeder>(breeders, selectedBreeders, &Agent::compare, genome.probB);
