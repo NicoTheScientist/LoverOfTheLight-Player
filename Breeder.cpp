@@ -76,11 +76,21 @@ void Breeder::breed(Agent** parents, Agent* emptyAgent)
 	{
 	case candidateSolution:
 		{
-            /*CandidateSolutionGenome newGenome;
-			doUniformCrossover(((CandidateSolution*)parents[0])->getGenome(), ((CandidateSolution*)parents[1])->GetGenome(), newGenome, 1.0);
-			doNonUniformMutation(newGenome, lowerBound, upperBound);
+            CandidateSolutionGenome newGenome;
+            for (int i = 0; i < Controller::nInputs; i++) {
+				for (int j = 0; j < Controller::nOutputs; j++) {
+					double gene0 = ((CandidateSolution*)parents[0])->getGenome().weights[i][j];
+					double gene1 = ((CandidateSolution*)parents[1])->getGenome().weights[i][j];
+					doUniformCrossover(gene0, gene1, &(newGenome.weights[i][j]), 1.0);
+				}
+			}
+			for (int i = 0; i < Controller::nInputs; i++) {
+				for (int j = 0; j < Controller::nOutputs; j++) {
+					doNonUniformMutation(&(newGenome.weights[i][j]), CS_MUTATION_RATE, genome.CSMutationSize, 0.0, 1.0);
+				}
+			}
             emptyAgent = new CandidateSolution();
-            emptyAgent.setGenome(newGenome);*/
+            ((CandidateSolution*)emptyAgent)->setGenome(newGenome);
 			break;
 		}
 	case cupid:
@@ -179,17 +189,14 @@ void Breeder::doUniformCrossover( int geneA, int geneB, int *target )
     }
 }
 
-/*void Breeder::doUniformCrossover( double * genomeA, double * genomeB, int length, double * target, double ratio )
+void Breeder::doUniformCrossover( double geneA, double geneB, double* target, double ratio )
 {
-	for ( int i = 0; i < length; ++i)
+	if ((double)rand() / (RAND_MAX + 1.0) < 0.5)
 	{
-		if ((double)rand() / (RAND_MAX + 1.0) < 0.5)
-		{
-			target[i] = (genomeA[i] * ratio) + (genomeB[i] * (1 - ratio));
-		}
-		else
-		{
-			target[i] = (genomeB[i] * ratio) + (genomeA[i] * (1 - ratio));
-		}
+		*(target) = (geneA * ratio) + (geneB * (1 - ratio));
 	}
-}*/
+	else
+	{
+		*(target) = (geneB * ratio) + (geneA * (1 - ratio));
+	}
+}

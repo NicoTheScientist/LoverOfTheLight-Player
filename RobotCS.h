@@ -1,13 +1,15 @@
 #include <libplayerc++/playerc++.h>
 #include "Robot.h"
-#include "Controller.h"
 #include "CandidateSolution.h"
+#include "Controller.h"
 
 
 using namespace PlayerCc;
 
 #ifndef ROBOTCS_H
 #define ROBOTCS_H
+
+class CandidateSolution;
 
 class RobotCS : public Robot{
     
@@ -21,11 +23,11 @@ class RobotCS : public Robot{
 	~RobotCS();
 	RangerProxy* getRP();
 	void updateSensors();
-	bool readSensors(double&, double&);
+	bool updateDirection(double&, double&);
     CandidateSolution* getAgent();
-    void setAgent(CandidateSolution* a);
+    void setAgent(CandidateSolution*);
 	Controller getController();
-	void setController(Controller);
+	void setController(double**);
 	void convertDifferential(double,double,double&,double&);
 
     private:

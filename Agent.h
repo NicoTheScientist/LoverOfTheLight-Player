@@ -1,6 +1,8 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+#include "Robot.h"
+
 enum AgentType {candidateSolution, cupid, reaper, breeder};
 
 class Agent{
@@ -15,6 +17,7 @@ class Agent{
     bool isActive();
     void setActive(bool a);
 	virtual void evaluateFitness() = 0;
+	virtual Robot* getRobot() = 0;
     
     static bool compare(Agent* left, Agent* right);
 

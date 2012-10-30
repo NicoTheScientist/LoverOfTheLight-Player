@@ -9,6 +9,8 @@ using namespace PlayerCc;
 #ifndef ROBOTFA_H
 #define ROBOTFA_H
 
+class FateAgent;
+
 class RobotFA : public Robot{
 public:
 	RobotFA(int,int,const char*,int);

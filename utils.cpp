@@ -8,12 +8,11 @@ struct Item{
 	double y;
 }typedef item_t;
 
-void RefreshItemList(item_t *itemList, SimulationProxy &simProxy){
-	int i;
+void RefreshItemList(item_t *itemList,int nLights, SimulationProxy &simProxy){
 	//get the poses of the light
-	for(i=0;i<5;i++){
+	for(int i=0; i<nLights; i++){
 		char lightStr[] = "light%d";
-		sprintf(itemList[i].name, lightStr, i+1);
+		sprintf(itemList[i].name, lightStr, i);
 		double dummy; //dummy variable, don’t need yaws.
 		simProxy.GetPose2d(itemList[i].name, itemList[i].x, itemList[i].y, dummy);
 	}
@@ -31,10 +30,18 @@ bool checkAndSolveStall(Robot* r,SimulationProxy &sp){
 	return false;
 }
 
-void reset(int& c){
+void reset(ulong& c){
 	c=0;
 }
 
 int chooseRandom(int arity) {
     return rand() % arity;
 }
+/*
+int searchByRobot(std::vector<Robot*> r,Robot* currentRobot){
+	for(int i=0; i<r.size(); i++){
+		if(r[i]==currentRobot)
+			return i;		
+	}
+	return -1;
+} */

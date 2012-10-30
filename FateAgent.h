@@ -3,6 +3,7 @@
 
 #include "Agent.h"
 #include "CandidateSolution.h"
+#include "RobotFA.h"
 #include <vector>
 
 class Breeder;
@@ -21,6 +22,8 @@ class FateAgent : public Agent
                           vector<Reaper*> r, vector<CandidateSolution*> avCS, vector<FateAgent*> avFA);
     void evaluateFitness();
     virtual void performAction() = 0;
+    void setRobot(RobotFA* r);
+    virtual RobotFA* getRobot();
     
 	
     protected:
@@ -31,6 +34,8 @@ class FateAgent : public Agent
 	vector<Reaper*> reapers;
     vector<CandidateSolution*> availableCS;
     vector<FateAgent*> availableFA;
+    
+    RobotFA* robot;
 };
 
 #endif

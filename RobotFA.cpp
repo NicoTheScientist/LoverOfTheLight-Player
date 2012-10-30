@@ -5,7 +5,7 @@
 #include "Cupid.h"
 #include "Reaper.h"
 #include "Breeder.h"
-#include "Agent.h"
+#include "FateAgent.h"
 
 using namespace PlayerCc;
 
@@ -14,12 +14,15 @@ RobotFA::RobotFA(int port,int i,const char* c,int j): Robot(port,i,c){
 	switch(j){
 		case 1:
 			setAgent(new Breeder());
+			agent->setRobot(this);
 			break;
 		case 2:
 			setAgent(new Cupid());
+			agent->setRobot(this);
 			break;
 		case 3:
 			setAgent(new Reaper());
+			agent->setRobot(this);
 			break;
 	}
 }
@@ -68,7 +71,7 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 				
 		if((targetX>agentX-nbSize && targetX<agentX+nbSize) && (targetY>agentY-nbSize && targetY<agentY+nbSize)){
 			if(getID()!=rfa[i]->getID()){
-				Agent* fate=rfa[i]->getAgent();
+				FateAgent* fate=rfa[i]->getAgent();
 				if(fate->isActive()){
 					AgentType at=fate->getType();
 					switch(at) {
@@ -85,7 +88,7 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 					
 				}
 				else
-					availableFA.push_back((FateAgent*)fate);
+					availableFA.push_back(fate);
 			}
 				
 		}
@@ -95,7 +98,7 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
     agent->setNeighbourhood(cs,b,c,r,availableCS, availableFA);
     
 	
-	if(cs.size()!=0 || c.size()!=0 || r.size()!=0 || b.size()!=0){
+/*	if(cs.size()!=0 || c.size()!=0 || r.size()!=0 || b.size()!=0){
 		std::cout<<getID()<<"'s Neighbourhood: "<<std::endl;
 		if(cs.size()!=0)
 			std::cout<<cs.size()<<" CandidateSolutions "<<std::endl;
@@ -105,6 +108,6 @@ void RobotFA::searchNeighbourhood(std::vector<RobotCS*> &rcs, std::vector<RobotF
 			std::cout<<r.size()<<" Reapers "<<std::endl;
 		if(b.size()!=0)
 			std::cout<<b.size()<<" Breeders "<<std::endl;
-	}		
+	}	*/	
 }
 

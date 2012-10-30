@@ -1,7 +1,7 @@
 #include "Controller.h"
 
 Controller::Controller(){
-        
+  
     weights = new double*[nInputs];
     for (int i = 0; i < nInputs; i++) {
         weights[i] = new double[nOutputs];
@@ -37,12 +37,19 @@ double** Controller::getWeights(){
 }
 
 void Controller::setWeights(double** w){
-        
-    weights = new double*[nInputs];
     for (int i = 0; i < nInputs; i++) {
         weights[i] = new double[nOutputs];
         for (int j = 0; j < nOutputs; j++) {
             weights[i][j] = w[i][j];
+        }
+    }
+}
+
+void Controller::initWeights(){
+    for (int i = 0; i < nInputs; i++) {
+        weights[i] = new double[nOutputs];
+        for (int j = 0; j < nOutputs; j++) {
+            weights[i][j] = 0;
         }
     }
 }

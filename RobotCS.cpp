@@ -8,7 +8,7 @@ using namespace PlayerCc;
 RobotCS::RobotCS(int port,int i,const char* id): Robot(port,i,id){
 	rp = new RangerProxy(getClient(),0); 
 	setAgent(new CandidateSolution());
-	
+	agent->setRobot(this);
 	c.setWeights((agent->getGenome()).weights);
 //	std::cout<<c.getWeights()[1][1]<<std::endl;
 }
@@ -27,7 +27,7 @@ void RobotCS::updateSensors(){
 	rp->RequestGeom();
 }
 
-bool RobotCS::readSensors(double &fwSpeed, double &angle){
+bool RobotCS::updateDirection(double &fwSpeed, double &angle){
 	// read sensors and remember max value
     double readings[nSensors+1];
 	readings[0]=1; // bias
@@ -35,6 +35,7 @@ bool RobotCS::readSensors(double &fwSpeed, double &angle){
     for(int j=0; j<nSensors; j++) {
         double sensorValue = maxSensorRange-(rp->GetRange(j));
 		readings[j+1] = sensorValue;
+//		std::cout<<"read "<<j<<":"<<sensorValue<<std::endl;
         if (sensorValue > max) {
             max = sensorValue;
         }
@@ -44,7 +45,7 @@ bool RobotCS::readSensors(double &fwSpeed, double &angle){
 	convertDifferential(output[0],output[1],fwSpeed,angle);
     // catch the light if max sensor value is big enough
     bool catched = false;
-    if(max>0.95*maxSensorRange) {
+    if(max>0.88*maxSensorRange) {
         catched = true;
     }
     return catched;
@@ -54,8 +55,8 @@ Controller RobotCS::getController(){
 	return c;
 }
 
-void RobotCS::setController(Controller co){
-	c=co;
+void RobotCS::setController(double** w){
+	c.setWeights(w);
 }
 
 CandidateSolution* RobotCS::getAgent(){

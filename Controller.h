@@ -13,6 +13,7 @@ class Controller {
     double* fwd(double *inputs);
     double** getWeights();
     void setWeights(double **w);
+    void initWeights();
     
     private:
     

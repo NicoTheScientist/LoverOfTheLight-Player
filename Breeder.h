@@ -1,8 +1,6 @@
 #ifndef BREEDER_H
 #define BREEDER_H
 
-//#pragma once
-//#include "Agent.h"
 #include "FateAgent.h"
 #include <vector>
 
@@ -41,8 +39,7 @@ class Breeder : public FateAgent
     void doNonUniformMutation(double* gene, double mutationRate, double mutationSize, double lowerBound, double upperBound);
     void doUniformCrossover(int geneA, int geneB, int *target);
 
-    
-	//void doUniformCrossover(double * genomeA, double * genomeB, int length, double * target, double ratio);
+    void doUniformCrossover(double geneA, double geneB, double* target, double ratio);
 };
 
 #endif

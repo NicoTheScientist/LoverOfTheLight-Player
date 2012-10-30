@@ -57,3 +57,11 @@ void CandidateSolution::shiftWindow()
     }
     window[0] = 0;
 }
+
+void CandidateSolution::setRobot(RobotCS* r){
+	robot=r;
+}
+
+RobotCS* CandidateSolution::getRobot(){
+	return robot;
+}

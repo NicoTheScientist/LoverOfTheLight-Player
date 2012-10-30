@@ -1,4 +1,5 @@
 #include "FateAgent.h"
+#include "RobotFA.h"
 
 FateAgent::FateAgent()
 {
@@ -34,4 +35,12 @@ void FateAgent::evaluateFitness()
         }
 	}
     fitness = max;
+}
+
+void FateAgent::setRobot(RobotFA* r){
+	robot=r;
+}
+    
+RobotFA* FateAgent::getRobot(){
+	return robot;
 }
